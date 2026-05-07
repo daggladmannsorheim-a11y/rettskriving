@@ -164,36 +164,79 @@ kbd{background:#020617;border:1px solid var(--line);border-radius:6px;padding:2p
 const levels = {
   "Nivå 1 – korte lydrette ord": [
     "sol","bil","hus","mus","is","lam","pil","bok","tak","mat",
-    "rot","fot","mur","ku","do","se","gå","ri","lo","fe"
+    "rot","fot","mur","ku","do","se","gå","ri","lo","fe",
+    "rev","myr","ski","ved","ris","sau","tå","lys","vei","tog",
+    "dam","ulv","blå","sur","pen"
   ],
+
   "Nivå 2 – lydrette ord": [
     "måne","rose","kake","stol","skole","fisk","melk","suppe","pute","bamse",
-    "nisse","løve","katt","hund","vase","kopp","lue","jakke","stige","snor"
+    "nisse","løve","katt","hund","vase","kopp","lue","jakke","stige","snor",
+    "banan","lampe","radio","tiger","panda","gitar","sykkel","butikk","appelsin",
+    "tallerken","sokker","traktor","vinter","sommer","skogen","eleven","papir","blyant"
   ],
+
   "Nivå 3 – dobbelt konsonant": [
-    "ball","katt","hatt","sitte","løpe","hoppe","bukke","telle","klemme","brenne",
-    "sammen","vannet","gammel","snakke","stemme","pakke","rekke","hytte","tømme","rulle"
+    "ball","katt","hatt","sitte","hoppe","bukke","telle","klemme","brenne",
+    "sammen","vannet","gammel","snakke","stemme","pakke","rekke","hytte","tømme","rulle",
+    "klappe","presse","drikke","sette","finne","kjenne","komme","matte","nøkkel",
+    "latter","pepper","middag","panne","begynne"
   ],
+
   "Nivå 4 – sj-lyd og kj-lyd": [
     "skjorte","skje","skjære","skjul","skjørt","sjelden","sjokolade","sjef","sjanse","sjiraff",
-    "kjole","kjempe","kjøkken","kjøre","kjenne","kjede","kjekt","kjøtt","kjærlighet","kilde"
+    "kjole","kjempe","kjøkken","kjøre","kjenne","kjede","kjekt","kjøtt","kjærlighet","kilde",
+    "skjelve","skjema","skjegg","skjebne","sjimpanse","sjampo","sjåfør",
+    "kjeks","kjeller","kjæreste","kjøretøy","kjøleskap","kjedelig","kjempestor","kjøttkake"
   ],
+
   "Nivå 5 – ng, nk og gn": [
     "sang","lang","trang","mange","finger","konge","penger","tunge","svinge","ringe",
-    "bank","tenke","lenke","vinke","synke","tegn","regn","vogn","sagn","ligner"
+    "bank","tenke","lenke","vinke","synke","tegn","regn","vogn","sagn","ligner",
+    "synger","stenge","vinge","camping","ringeklokke","banke","lengde","tegnspråk",
+    "gnisse","regning","tvinge","gnage","vinkel","tenkning"
   ],
+
   "Nivå 6 – stumme bokstaver": [
     "hjelp","hjem","hjerne","hjerte","hvit","hvem","hvor","hva","hvilken","hval",
-    "godt","rødt","kaldt","sandt","gjøre","gjerne","gjemme","gjerde","gjest","gjelde"
+    "godt","rødt","kaldt","gjøre","gjerne","gjemme","gjerde","gjest","gjelde",
+    "hjul","hvetebrød","hvalross","hverdag","gjenskinn","gjenstand","gjette",
+    "gjenvinne","vondt","rundt","håndkle","halvparten"
   ],
+
   "Nivå 7 – vanlige vanskelige ord": [
     "alltid","aldri","egentlig","kanskje","dessverre","selvfølgelig","plutselig","fordi","igjen","gjennom",
-    "menneske","vennlig","viktig","virkelig","nødvendig","annerledes","omtrent","sikkert","spennende","fortsatt"
+    "menneske","vennlig","viktig","virkelig","nødvendig","annerledes","omtrent","sikkert","spennende","fortsatt",
+    "dessuten","muligens","antakelig","forresten","fremdeles","samtidig","overraskende",
+    "forståelse","erfaring","nødvendighet","selvstendig","tilfeldigvis","opplevelse",
+    "forskjellig","tilgjengelig","interessert"
   ],
+
   "Nivå 8 – høyeste nivå": [
-    "nysgjerrig","interessant","sjokolade","journalist","abonnere","restaurant","diskusjon","situasjon","bevisst",
-    "dessuten","uavhengig","parallell","komplisert","konsekvens","nødvendigvis","eksperiment","argumentasjon",
-    "kommunikasjon","konsentrasjon","forhåpentligvis"
+    "nysgjerrig","interessant","journalist","abonnere","restaurant","diskusjon","situasjon","bevisst",
+    "uavhengig","parallell","komplisert","konsekvens","nødvendigvis","eksperiment","argumentasjon",
+    "kommunikasjon","konsentrasjon","forhåpentligvis","konfidensiell","rehabilitering",
+    "desinfisering","eksperimentering","sannsynlighet","misforståelse","kommunikasjonsevne",
+    "konsentrasjonsvansker","uforutsigbarhet","samfunnsutvikling","naturvitenskapelig",
+    "overbevisende","gjennomsnittlig","bemerkelsesverdig","tilstedeværelse",
+    "parallellogram","sannsynligvis","gjennomsnitt","uavhengighet","oppmerksomhet",
+    "hensiktsmessig","uoverensstemmelse"
+  ],
+
+  "Spesialnivå – vanlige feilord": [
+    "og","å","da","når","vær","hver","gjorde","interessert","selvfølgelig",
+    "kanskje","alltid","aldri","dessverre","plutselig","egentlig"
+  ],
+
+  "Spesialnivå – engelske lånord": [
+    "smoothie","gaming","keyboard","online","streamer","challenge",
+    "podkast","computer","capslock","joystick","headset","minecraft"
+  ],
+
+  "Spesialnivå – fagord skole": [
+    "subtraksjon","divisjon","demokrati","vulkanutbrudd","fotosyntese","middelalderen",
+    "addisjon","multiplikasjon","grunnlov","parlament","temperatur","fordampning",
+    "kildekritikk","rettskriving","grammatikk","substantiv","verb","adjektiv"
   ]
 };
 
@@ -207,6 +250,7 @@ let log = [];
 let showing = false;
 
 const levelSelect = document.getElementById("level");
+
 Object.keys(levels).forEach(name => {
   const opt = document.createElement("option");
   opt.value = name;
@@ -292,6 +336,7 @@ function hideWord(){
 
 function showAgain(){
   if(!current) return;
+
   document.getElementById("wordBox").textContent = current;
   document.getElementById("answer").classList.add("hidden");
   document.getElementById("checkBtn").classList.add("hidden");
@@ -339,10 +384,11 @@ function endGame(){
   document.getElementById("game").classList.add("hidden");
   document.getElementById("result").classList.remove("hidden");
 
-  const percent = words.length ? Math.round((correct / words.length) * 100) : 0;
+  const total = log.length;
+  const percent = total ? Math.round((correct / total) * 100) : 0;
 
   document.getElementById("summary").innerHTML = `
-    <p><b>${correct}</b> riktige av <b>${words.length}</b> ord.</p>
+    <p><b>${correct}</b> riktige av <b>${total}</b> ord.</p>
     <p>Treffprosent: <b>${percent}%</b>. Poeng: <b>${score}</b>.</p>
   `;
 
