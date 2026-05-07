@@ -6,15 +6,8 @@
 <title>Rettskrivingstrener</title>
 <style>
 :root{
-  --bg:#f7f3e8;
-  --card:#fffdf7;
-  --ink:#111;
-  --muted:#555;
-  --line:#d8cdb8;
-  --accent:#ffd166;
-  --accent2:#118ab2;
-  --good:#0a8f3c;
-  --bad:#d62828;
+  --bg:#f7f3e8; --card:#fffdf7; --ink:#111; --muted:#555;
+  --line:#d8cdb8; --accent:#ffd166; --good:#0a8f3c; --bad:#d62828;
 }
 *{box-sizing:border-box}
 body{
@@ -42,12 +35,7 @@ button,select,input,textarea{
   border:2px solid #222;
   padding:10px 14px;
 }
-button{
-  background:var(--accent);
-  color:#111;
-  font-weight:900;
-  cursor:pointer;
-}
+button{background:var(--accent);color:#111;font-weight:900;cursor:pointer}
 button.secondary{background:#e0f4ff}
 button.bad{background:#ffadad}
 input,select,textarea{background:white;color:#111}
@@ -65,12 +53,7 @@ textarea{width:100%;min-height:100px}
   text-align:center;
   padding:16px;
 }
-.answer{
-  width:100%;
-  font-size:32px;
-  text-align:center;
-  font-weight:900;
-}
+.answer{width:100%;font-size:32px;text-align:center;font-weight:900}
 .stats{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
@@ -101,7 +84,7 @@ td,th{border-bottom:1px solid var(--line);padding:8px;text-align:left}
 <body>
 <div class="wrap">
   <h1>Rettskrivingstrener</h1>
-  <p class="muted"></p>
+  <p class="muted">Minnetrening eller diktat som pre-test/post-test.</p>
 
   <div class="card" id="setup">
     <h2>Innstillinger</h2>
@@ -178,6 +161,7 @@ td,th{border-bottom:1px solid var(--line);padding:8px;text-align:left}
   <div class="card hidden" id="game">
     <div class="stats">
       <div class="stat">Ord<br><b id="progress">0/0</b></div>
+      <div class="stat">Tid<br><b id="timer">00:00</b></div>
       <div class="stat">Riktige<br><b class="good" id="correct">0</b></div>
       <div class="stat">Feil<br><b class="badtext" id="wrong">0</b></div>
       <div class="stat">Poeng<br><b id="score">0</b></div>
@@ -302,7 +286,8 @@ const sentenceBank = {
 };
 
 let words=[], current="", currentSentence="", index=0, correct=0, wrong=0, score=0, log=[], showing=false;
-let mode="memory", testType="pre", voices=[];
+let mode="memory", testType="pre", voices=[], lockedVoice=null;
+let startTime=null, timerInterval=null, elapsedSeconds=0;
 
 const levelSelect=document.getElementById("level");
 
@@ -340,8 +325,15 @@ function loadVoices(){
   voices=speechSynthesis.getVoices();
   const select=document.getElementById("voiceSelect");
   select.innerHTML="";
-  const preferred=voices.filter(v=>v.lang.toLowerCase().startsWith("nb")||v.lang.toLowerCase().startsWith("no")||v.lang.toLowerCase().startsWith("nn"));
-  const list=preferred.length?preferred:voices;
+
+  const preferred=voices.filter(v=>
+    v.lang.toLowerCase().startsWith("nb") ||
+    v.lang.toLowerCase().startsWith("no") ||
+    v.lang.toLowerCase().startsWith("nn")
+  );
+
+  const list=preferred.length ? preferred : voices;
+
   list.forEach(voice=>{
     const opt=document.createElement("option");
     opt.value=voices.indexOf(voice);
@@ -353,6 +345,11 @@ function loadVoices(){
 if("speechSynthesis" in window){
   speechSynthesis.onvoiceschanged=loadVoices;
   loadVoices();
+}
+
+function lockVoice(){
+  const select=document.getElementById("voiceSelect");
+  lockedVoice = voices[Number(select.value)] || null;
 }
 
 function toggleCustom(){
@@ -368,9 +365,39 @@ function getSeconds(){
   return t==="custom" ? Number(document.getElementById("customTime").value)||2 : Number(t);
 }
 
+function startTimer(){
+  startTime=Date.now();
+  elapsedSeconds=0;
+  updateTimerDisplay();
+
+  timerInterval=setInterval(()=>{
+    elapsedSeconds=Math.floor((Date.now()-startTime)/1000);
+    updateTimerDisplay();
+  },250);
+}
+
+function stopTimer(){
+  if(timerInterval){
+    clearInterval(timerInterval);
+    timerInterval=null;
+  }
+  if(startTime){
+    elapsedSeconds=Math.max(1,Math.round((Date.now()-startTime)/1000));
+  }
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay(){
+  const m=String(Math.floor(elapsedSeconds/60)).padStart(2,"0");
+  const s=String(elapsedSeconds%60).padStart(2,"0");
+  document.getElementById("timer").textContent=`${m}:${s}`;
+}
+
 function startGame(){
   mode=document.querySelector("input[name='mode']:checked").value;
   testType=document.getElementById("testType").value;
+
+  if(mode==="dictation") lockVoice();
 
   const custom=document.getElementById("customWords").value.split(/\n/).map(w=>w.trim()).filter(Boolean);
   const base=custom.length ? custom : levels[levelSelect.value];
@@ -384,6 +411,7 @@ function startGame(){
   document.getElementById("result").classList.add("hidden");
 
   updateStats();
+  startTimer();
   nextWord();
 }
 
@@ -426,12 +454,6 @@ function getSentence(word){
   return "";
 }
 
-function selectedVoice(){
-  const select=document.getElementById("voiceSelect");
-  if(select.value==="") return null;
-  return voices[Number(select.value)] || null;
-}
-
 function speakText(text,rate=null){
   return new Promise(resolve=>{
     if(!("speechSynthesis" in window)){ resolve(); return; }
@@ -442,8 +464,7 @@ function speakText(text,rate=null){
     utter.rate=rate ?? Number(document.getElementById("rateSelect").value);
     utter.pitch=1;
 
-    const voice=selectedVoice();
-    if(voice) utter.voice=voice;
+    if(lockedVoice) utter.voice=lockedVoice;
 
     utter.onend=resolve;
     utter.onerror=resolve;
@@ -467,7 +488,8 @@ async function speakCurrent(){
 }
 
 function testVoice(){
-  speechSynthesis.cancel();
+  if("speechSynthesis" in window) speechSynthesis.cancel();
+  lockVoice();
   speakText("Magnus spiste sjokolade til dessert. Skriv sjokolade.",0.78);
 }
 
@@ -514,16 +536,25 @@ function updateStats(){
 
 function endGame(){
   if("speechSynthesis" in window) speechSynthesis.cancel();
+  stopTimer();
 
   document.getElementById("game").classList.add("hidden");
   document.getElementById("result").classList.remove("hidden");
 
   const total=log.length;
+  const minutes=Math.max(elapsedSeconds/60, 1/60);
   const percent=total ? Math.round((correct/total)*100) : 0;
+  const correctPerMin=(correct/minutes).toFixed(1);
+  const wrongPerMin=(wrong/minutes).toFixed(1);
+  const totalPerMin=(total/minutes).toFixed(1);
 
   document.getElementById("summary").innerHTML=`
     <p><b>${correct}</b> riktige av <b>${total}</b> ord.</p>
-    <p>Treffprosent: <b>${percent}%</b>.</p>
+    <p>Feil: <b>${wrong}</b>. Treffprosent: <b>${percent}%</b>.</p>
+    <p>Tid: <b>${formatTime(elapsedSeconds)}</b>.</p>
+    <p>Riktige per minutt: <b>${correctPerMin}</b>.</p>
+    <p>Feil per minutt: <b>${wrongPerMin}</b>.</p>
+    <p>Totalt forsøkte ord per minutt: <b>${totalPerMin}</b>.</p>
   `;
 
   let html=`
@@ -547,6 +578,12 @@ function endGame(){
   });
 
   document.getElementById("resultTable").innerHTML=html;
+}
+
+function formatTime(seconds){
+  const m=String(Math.floor(seconds/60)).padStart(2,"0");
+  const s=String(seconds%60).padStart(2,"0");
+  return `${m}:${s}`;
 }
 
 function escapeHtml(str){
