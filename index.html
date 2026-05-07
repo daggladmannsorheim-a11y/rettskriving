@@ -4,20 +4,39 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Rettskrivingstrener med diktat</title>
+
 <style>
 :root{
-  --bg:#0f172a; --card:#111827; --ink:#f8fafc; --muted:#cbd5e1;
-  --line:#334155; --good:#22c55e; --bad:#ef4444; --accent:#38bdf8;
+  --bg:#0f172a;
+  --card:#111827;
+  --ink:#f8fafc;
+  --muted:#cbd5e1;
+  --line:#334155;
+  --good:#22c55e;
+  --bad:#ef4444;
+  --accent:#38bdf8;
 }
+
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:system-ui,Segoe UI,Arial,sans-serif;
   background:linear-gradient(135deg,#020617,#1e293b);
   color:var(--ink);
 }
-.wrap{max-width:980px;margin:auto;padding:18px}
-h1{margin:0 0 8px;font-size:28px}
+
+.wrap{
+  max-width:980px;
+  margin:auto;
+  padding:18px;
+}
+
+h1{
+  margin:0 0 8px;
+  font-size:28px;
+}
+
 .card{
   background:rgba(17,24,39,.95);
   border:1px solid var(--line);
@@ -26,26 +45,48 @@ h1{margin:0 0 8px;font-size:28px}
   margin:14px 0;
   box-shadow:0 10px 30px rgba(0,0,0,.25);
 }
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+.row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
 button,select,input,textarea{
   font:inherit;
   border-radius:12px;
   border:1px solid var(--line);
   padding:10px 12px;
 }
+
 button{
   background:var(--accent);
   color:#00111f;
   font-weight:800;
   cursor:pointer;
 }
-button.secondary{background:#1e293b;color:var(--ink)}
-button.bad{background:var(--bad);color:white}
+
+button.secondary{
+  background:#1e293b;
+  color:var(--ink);
+}
+
+button.bad{
+  background:var(--bad);
+  color:white;
+}
+
 input,select,textarea{
   background:#020617;
   color:var(--ink);
 }
-textarea{width:100%;min-height:100px}
+
+textarea{
+  width:100%;
+  min-height:100px;
+}
+
 .bigword{
   min-height:110px;
   display:grid;
@@ -59,48 +100,70 @@ textarea{width:100%;min-height:100px}
   text-align:center;
   padding:12px;
 }
+
 .answer{
   width:100%;
   font-size:28px;
   text-align:center;
   font-weight:800;
 }
+
 .stats{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
   gap:10px;
 }
+
 .stat{
   background:#020617;
   border:1px solid var(--line);
   border-radius:14px;
   padding:12px;
 }
-.stat b{font-size:24px}
+
+.stat b{
+  font-size:24px;
+}
+
 .good{color:var(--good)}
 .badtext{color:var(--bad)}
 .muted{color:var(--muted)}
 .hidden{display:none}
-table{width:100%;border-collapse:collapse;margin-top:10px}
-td,th{border-bottom:1px solid var(--line);padding:8px;text-align:left}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+
+td,th{
+  border-bottom:1px solid var(--line);
+  padding:8px;
+  text-align:left;
+}
+
 .mode{
   padding:10px 12px;
   border:1px solid var(--line);
   border-radius:14px;
   background:#020617;
 }
-.small{font-size:14px}
 </style>
 </head>
+
 <body>
+
 <div class="wrap">
+
   <h1>Rettskrivingstrener</h1>
   <p class="muted">Vanlig minnetrening eller diktat som pre-test/post-test.</p>
 
   <div class="card" id="setup">
+
     <h2>Innstillinger</h2>
 
     <div class="row">
+
       <label class="mode">
         <input type="radio" name="mode" value="memory" checked>
         Vanlig minnetrening
@@ -118,16 +181,20 @@ td,th{border-bottom:1px solid var(--line);padding:8px;text-align:left}
           <option value="post">Post-test</option>
         </select>
       </label>
+
     </div>
 
     <br>
 
     <div class="row">
-      <label>Nivå:
+
+      <label>
+        Nivå:
         <select id="level"></select>
       </label>
 
-      <label id="timeWrap">Visningstid:
+      <label id="timeWrap">
+        Visningstid:
         <select id="time">
           <option value="1">1 sekund</option>
           <option value="3" selected>3 sekunder</option>
@@ -146,16 +213,22 @@ td,th{border-bottom:1px solid var(--line);padding:8px;text-align:left}
         Antall ord:
         <input id="count" type="number" min="1" max="100" value="10">
       </label>
+
     </div>
 
     <div id="voiceBox" class="hidden">
+
       <br>
+
       <div class="row">
-        <label>Stemme:
+
+        <label>
+          Stemme:
           <select id="voiceSelect"></select>
         </label>
 
-        <label>Talehastighet:
+        <label>
+          Talehastighet:
           <select id="rateSelect">
             <option value="0.7">Veldig rolig</option>
             <option value="0.8" selected>Rolig</option>
@@ -164,9 +237,12 @@ td,th{border-bottom:1px solid var(--line);padding:8px;text-align:left}
           </select>
         </label>
 
-        <button class="secondary" onclick="testVoice()">Test stemme</button>
+        <button class="secondary" onclick="testVoice()">
+          Test stemme
+        </button>
+
       </div>
-      <p class="muted small">Tips: På Windows er Microsoft Nora ofte bedre enn standardstemmen.</p>
+
     </div>
 
     <p>
@@ -175,205 +251,525 @@ td,th{border-bottom:1px solid var(--line);padding:8px;text-align:left}
     </p>
 
     <div id="customBox" class="hidden">
-      <p class="muted">Skriv ett ord per linje. Dette overstyrer nivåvalg.</p>
-      <textarea id="customWords" placeholder="nysgjerrig&#10;interessant&#10;skjære&#10;sjokolade"></textarea>
+
+      <p class="muted">
+        Skriv ett ord per linje. Dette overstyrer nivåvalg.
+      </p>
+
+      <textarea id="customWords"></textarea>
+
     </div>
+
   </div>
 
   <div class="card hidden" id="game">
+
     <div class="stats">
-      <div class="stat">Ord <br><b id="progress">0/0</b></div>
-      <div class="stat">Riktige <br><b class="good" id="correct">0</b></div>
-      <div class="stat">Feil <br><b class="badtext" id="wrong">0</b></div>
-      <div class="stat">Poeng <br><b id="score">0</b></div>
+
+      <div class="stat">
+        Ord <br>
+        <b id="progress">0/0</b>
+      </div>
+
+      <div class="stat">
+        Riktige <br>
+        <b class="good" id="correct">0</b>
+      </div>
+
+      <div class="stat">
+        Feil <br>
+        <b class="badtext" id="wrong">0</b>
+      </div>
+
+      <div class="stat">
+        Poeng <br>
+        <b id="score">0</b>
+      </div>
+
     </div>
 
-    <div class="bigword" id="wordBox">Klar?</div>
+    <div class="bigword" id="wordBox">
+      Klar?
+    </div>
 
-    <input class="answer hidden" id="answer" autocomplete="off" placeholder="Skriv ordet her">
+    <input
+      class="answer hidden"
+      id="answer"
+      autocomplete="off"
+      placeholder="Skriv ordet her"
+    >
 
     <p class="row">
-      <button id="checkBtn" class="hidden" onclick="checkAnswer()">Sjekk</button>
-      <button id="repeatBtn" class="secondary hidden" onclick="speakCurrent()">Hør igjen</button>
-      <button id="showBtn" class="secondary" onclick="showAgain()">Vis ordet igjen</button>
-      <button class="bad" onclick="endGame()">Avslutt</button>
+
+      <button id="checkBtn" class="hidden" onclick="checkAnswer()">
+        Sjekk
+      </button>
+
+      <button id="repeatBtn" class="secondary hidden" onclick="speakCurrent()">
+        Hør igjen
+      </button>
+
+      <button id="showBtn" class="secondary" onclick="showAgain()">
+        Vis ordet igjen
+      </button>
+
+      <button class="bad" onclick="endGame()">
+        Avslutt
+      </button>
+
     </p>
+
   </div>
 
   <div class="card hidden" id="result">
+
     <h2>Resultat</h2>
+
     <div id="summary"></div>
+
     <table id="resultTable"></table>
-    <p><button onclick="location.reload()">Start på nytt</button></p>
+
+    <p>
+      <button onclick="location.reload()">
+        Start på nytt
+      </button>
+    </p>
+
   </div>
+
 </div>
 
 <script>
+
 const levels = {
+
   "Nivå 1 – korte lydrette ord": [
-    "sol","bil","hus","mus","is","lam","pil","bok","tak","mat",
-    "rot","fot","mur","ku","do","se","gå","ri","lo","fe",
-    "rev","myr","ski","ved","ris","sau","tå","lys","vei","tog",
-    "dam","ulv","blå","sur","pen"
+    "sol","bil","hus","mus","mat","bok","tog"
   ],
 
   "Nivå 2 – lydrette ord": [
-    "måne","rose","kake","stol","skole","fisk","melk","suppe","pute","bamse",
-    "nisse","løve","katt","hund","vase","kopp","lue","jakke","stige","snor",
-    "banan","lampe","radio","tiger","panda","gitar","sykkel","butikk","appelsin",
-    "tallerken","sokker","traktor","vinter","sommer","skogen","eleven","papir","blyant"
+    "lampe","skole","vinter","sommer","blyant","katt","hund"
   ],
 
   "Nivå 3 – dobbelt konsonant": [
-    "ball","katt","hatt","sitte","hoppe","bukke","telle","klemme","brenne",
-    "sammen","vannet","gammel","snakke","stemme","pakke","rekke","hytte","tømme","rulle",
-    "klappe","presse","drikke","sette","finne","kjenne","komme","matte","nøkkel",
-    "latter","pepper","middag","panne","begynne"
+    "ball","hoppe","klemme","sammen","gammel","nøkkel"
   ],
 
   "Nivå 4 – sj-lyd og kj-lyd": [
-    "skjorte","skje","skjære","skjul","skjørt","sjelden","sjokolade","sjef","sjanse","sjiraff",
-    "kjole","kjempe","kjøkken","kjøre","kjenne","kjede","kjekt","kjøtt","kjærlighet","kilde",
-    "skjelve","skjema","skjegg","skjebne","sjimpanse","sjampo","sjåfør",
-    "kjeks","kjeller","kjæreste","kjøretøy","kjøleskap","kjedelig","kjempestor","kjøttkake"
+    "sjokolade","skjorte","skje","skjære","kjøkken",
+    "kjøre","kjøleskap","kjærlighet"
   ],
 
   "Nivå 5 – ng, nk og gn": [
-    "sang","lang","trang","mange","finger","konge","penger","tunge","svinge","ringe",
-    "bank","tenke","lenke","vinke","synke","tegn","regn","vogn","sagn","ligner",
-    "synger","stenge","vinge","camping","ringeklokke","banke","lengde","tegnspråk",
-    "gnisse","regning","tvinge","gnage","vinkel","tenkning"
+    "ringe","penger","finger","regn","vogn","tenke"
   ],
 
   "Nivå 6 – stumme bokstaver": [
-    "hjelp","hjem","hjerne","hjerte","hvit","hvem","hvor","hva","hvilken","hval",
-    "godt","rødt","kaldt","gjøre","gjerne","gjemme","gjerde","gjest","gjelde",
-    "hjul","hvetebrød","hvalross","hverdag","gjenskinn","gjenstand","gjette",
-    "gjenvinne","vondt","rundt","håndkle","halvparten"
+    "hjelp","hjem","hjerte","hvit","hvem","hvor",
+    "gjøre","gjerne","gjest"
   ],
 
   "Nivå 7 – vanlige vanskelige ord": [
-    "alltid","aldri","egentlig","kanskje","dessverre","selvfølgelig","plutselig","fordi","igjen","gjennom",
-    "menneske","vennlig","viktig","virkelig","nødvendig","annerledes","omtrent","sikkert","spennende","fortsatt",
-    "dessuten","muligens","antakelig","forresten","fremdeles","samtidig","overraskende",
-    "forståelse","erfaring","nødvendighet","selvstendig","tilfeldigvis","opplevelse",
-    "forskjellig","tilgjengelig","interessert"
+    "alltid","aldri","egentlig","kanskje","dessverre",
+    "selvfølgelig","plutselig","gjennom","menneske",
+    "nødvendig","annerledes","forskjellig",
+    "tilgjengelig","interessert"
   ],
 
   "Nivå 8 – høyeste nivå": [
-    "nysgjerrig","interessant","journalist","abonnere","restaurant","diskusjon","situasjon","bevisst",
-    "uavhengig","parallell","komplisert","konsekvens","nødvendigvis","eksperiment","argumentasjon",
-    "kommunikasjon","konsentrasjon","forhåpentligvis","konfidensiell","rehabilitering",
-    "desinfisering","eksperimentering","sannsynlighet","misforståelse","kommunikasjonsevne",
-    "konsentrasjonsvansker","uforutsigbarhet","samfunnsutvikling","naturvitenskapelig",
-    "overbevisende","gjennomsnittlig","bemerkelsesverdig","tilstedeværelse",
-    "parallellogram","sannsynligvis","gjennomsnitt","uavhengighet","oppmerksomhet",
-    "hensiktsmessig","uoverensstemmelse"
-  ],
-
-  "Spesialnivå – vanlige feilord": [
-    "og","å","da","når","vær","hver","gjorde","interessert","selvfølgelig",
-    "kanskje","alltid","aldri","dessverre","plutselig","egentlig"
-  ],
-
-  "Spesialnivå – engelske lånord": [
-    "smoothie","gaming","keyboard","online","streamer","challenge",
-    "podkast","computer","capslock","joystick","headset","minecraft"
-  ],
-
-  "Spesialnivå – fagord skole": [
-    "subtraksjon","divisjon","demokrati","vulkanutbrudd","fotosyntese","middelalderen",
-    "addisjon","multiplikasjon","grunnlov","parlament","temperatur","fordampning",
-    "kildekritikk","rettskriving","grammatikk","substantiv","verb","adjektiv"
+    "nysgjerrig","interessant","journalist","abonnere",
+    "restaurant","diskusjon","situasjon","bevisst",
+    "uavhengig","parallell","komplisert","konsekvens",
+    "eksperiment","kommunikasjon","konsentrasjon",
+    "sannsynlighet","gjennomsnitt","oppmerksomhet",
+    "hensiktsmessig"
   ]
+
 };
 
 const sentenceBank = {
-  sol:["Sola varmet ansiktet mitt da vi gikk hjem fra skolen.","På tegningen laget Sara en gul sol over huset."],
-  bil:["Pappa parkerte bilen ved siden av butikken.","Vi satt stille i bilen mens regnet trommet på ruta."],
-  hus:["Det røde huset lå nederst i bakken.","I eventyret bodde familien i et lite hus ved skogen."],
-  mus:["En liten mus løp under skapet på kjøkkenet.","Katten satt helt stille og så etter en mus."],
-  mat:["Etter turen smakte maten ekstra godt.","Barna pakket mat i sekken før de gikk ut."],
-  bok:["Lina fant en spennende bok på biblioteket.","Han la boka forsiktig ned i sekken."],
-  tog:["Toget kom presis klokka åtte.","Vi vinket da toget kjørte ut fra stasjonen."],
-  lampe:["Lampa over bordet ga et varmt lys.","Bestemor slo på lampa før hun begynte å lese."],
-  skole:["Barna gikk sammen til skolen om morgenen.","Skolen hadde forestilling i gymsalen."],
-  vinter:["Om vinteren blir det tidlig mørkt.","Vinteren kom med snø og glatte veier."],
-  sommer:["Om sommeren badet vi nesten hver dag.","Sommeren var varm og full av lyse kvelder."],
-  blyant:["Omar spisset blyanten før han begynte å skrive.","Blyanten rullet ned fra pulten."],
-  katt:["Katten sov i vinduskarmen hele ettermiddagen.","En svart katt listet seg over gårdsplassen."],
-  hund:["Hunden logret da den så eieren sin.","Vi møtte en glad hund i parken."],
-  ball:["Ballen spratt over gjerdet og inn til naboen.","Mina kastet ballen til vennen sin."],
-  hoppe:["Barna ville hoppe tau i friminuttet.","Frosken prøvde å hoppe over steinen."],
-  klemme:["Hun ga lillebroren en klemme før hun dro.","Bamsen fikk en klemme etter leggetid."],
-  sammen:["Vi ryddet klasserommet sammen etter timen.","De bygde en hytte sammen i skogen."],
-  gammel:["Den gamle boka luktet støv og papir.","I hagen sto et gammelt epletre."],
-  nøkkel:["Nøkkelen lå i lomma hele tiden.","Han fant en nøkkel under matta."],
-  sjokolade:["Magnus spiste sjokolade til dessert.","Hun kjøpte sjokolade på vei hjem fra skolen.","Sjokoladen smeltet i sola."],
-  skjorte:["Han tok på seg en ren skjorte før besøket.","Skjorta hang på stolen ved senga."],
-  skje:["Hun rørte i suppa med en skje.","Skjeen falt ned på gulvet med et lite klirr."],
-  skjære:["Bestefar brukte en kniv til å skjære brød.","Kokken skulle skjære grønnsaker til suppa."],
-  kjøkken:["Det luktet nybakt brød fra kjøkkenet.","Familien samlet seg på kjøkkenet om morgenen."],
-  kjøre:["Vi skulle kjøre til hytta etter skolen.","Bussen måtte kjøre sakte på den glatte veien."],
-  kjøleskap:["Melka sto øverst i kjøleskapet.","Hun åpnet kjøleskapet for å finne ost."],
-  kjærlighet:["Bestemor sa at kjærlighet vises i det man gjør.","Filmen handlet om vennskap og kjærlighet."],
-  ringe:["Mamma måtte ringe skolen før klokka åtte.","Det begynte å ringe i telefonen."],
-  penger:["Han sparte penger til en ny sykkel.","Pengene lå trygt i den lille boksen."],
-  finger:["Hun fikk maling på en finger.","Han holdt opp en finger for å spørre om noe."],
-  regn:["Det kom regn akkurat da vi skulle ut.","Regnet slo hardt mot vinduet."],
-  vogn:["Babyen sov rolig i vogna.","De trillet vogna over brua."],
-  tenke:["Jeg måtte tenke litt før jeg svarte.","Hun satte seg ned for å tenke over spørsmålet."],
-  hjelp:["Han rakte opp hånda og ba om hjelp.","Med litt hjelp klarte hun oppgaven."],
-  hjem:["Vi gikk hjem da kampen var ferdig.","Han gledet seg til å komme hjem."],
-  hjerte:["Hun tegnet et hjerte på kortet.","Hjertet banket fort før konserten."],
-  hvit:["Den hvite katten lå på trappa.","Snøen gjorde hele hagen hvit."],
-  hvem:["Læreren spurte hvem som ville lese først.","Hvem hadde lagt boka på bordet?"],
-  hvor:["Hun visste ikke hvor nøkkelen var.","Hvor skal vi møtes etter skolen?"],
-  gjøre:["Hva skal vi gjøre i friminuttet?","De måtte gjøre ferdig leksene før middag."],
-  gjerne:["Jeg vil gjerne være med på turen.","Hun hjelper gjerne til når noen spør."],
-  gjest:["Vi fikk en gjest på besøk til middag.","Gjesten hengte jakka i gangen."],
-  alltid:["Han husker alltid å lukke døra.","Bestemor sier alltid hei med et smil."],
-  aldri:["Hun hadde aldri sett så mye snø før.","Vi går aldri over veien uten å se oss for."],
-  egentlig:["Han visste egentlig svaret hele tiden.","Egentlig ville hun bare være hjemme."],
-  kanskje:["Kanskje kommer det snø i morgen.","Vi kan kanskje rekke bussen likevel."],
-  dessverre:["Dessverre var butikken stengt.","Jeg kan dessverre ikke bli med i dag."],
-  selvfølgelig:["Selvfølgelig skal vi hjelpe deg.","Det er selvfølgelig lov å spørre en gang til."],
-  plutselig:["Plutselig begynte det å regne.","Plutselig hørte vi en lyd fra gangen."],
-  gjennom:["Vi gikk gjennom skogen på vei hjem.","Sola skinte gjennom vinduet."],
-  menneske:["Et menneske trenger både mat og søvn.","Alle mennesker lærer på ulike måter."],
-  nødvendig:["Det var nødvendig å ta med varme klær.","Noen ganger er det nødvendig å øve mer."],
-  annerledes:["Dagen ble helt annerledes enn vi hadde trodd.","Hun valgte en annerledes løsning."],
-  forskjellig:["Barna hadde forskjellig farge på jakkene.","Vi fant tre forskjellige svar på oppgaven."],
-  tilgjengelig:["Boka var tilgjengelig på biblioteket.","Læreren var tilgjengelig etter timen."],
-  interessert:["Han var interessert i dinosaurer.","Hun ble interessert da forsøket startet."],
-  nysgjerrig:["Amina ble nysgjerrig da hun så den gamle nøkkelen.","Den nysgjerrige katten undersøkte posen."],
-  interessant:["Læreren fortalte en interessant historie.","Det var en interessant bok om verdensrommet."],
-  journalist:["En journalist intervjuet elevene etter konserten.","Journalisten skrev om saken i avisa."],
-  abonnere:["Familien valgte å abonnere på avisa.","Han ville abonnere på et blad om dyr."],
-  restaurant:["Familien spiste middag på en restaurant.","Restauranten lå rett ved sjøen."],
-  diskusjon:["Det ble en god diskusjon i klassen.","Diskusjonen handlet om hva som var rettferdig."],
-  situasjon:["Det var en vanskelig situasjon for alle.","Hun visste ikke hva hun skulle gjøre i den situasjonen."],
-  bevisst:["Han tok et bevisst valg om å øve mer.","Læreren var bevisst på å gi tydelige beskjeder."],
-  uavhengig:["Hun ville klare oppgaven uavhengig av hjelp.","Avisen skal være uavhengig."],
-  parallell:["De to linjene var parallelle.","Veiene lå parallelt et langt stykke."],
-  komplisert:["Oppgaven virket komplisert i starten.","Forklaringen ble for komplisert for små barn."],
-  konsekvens:["Det fikk en tydelig konsekvens for gruppa.","En konsekvens av regnet var at kampen ble avlyst."],
-  eksperiment:["Klassen gjorde et eksperiment med vann og is.","Eksperimentet viste hva som skjer når vann fryser."],
-  kommunikasjon:["God kommunikasjon gjør samarbeid lettere.","Kommunikasjon mellom hjem og skole er viktig."],
-  konsentrasjon:["Eleven trengte god konsentrasjon under prøven.","Det var vanskelig å holde konsentrasjonen i bråket."],
-  sannsynlighet:["Vi regnet på sannsynlighet i matematikken.","Sannsynlighet handler om hvor trolig noe er."],
-  gjennomsnitt:["Klassen fant gjennomsnitt av resultatene.","Gjennomsnittet ble høyere enn forrige gang."],
-  oppmerksomhet:["Hunden ville ha oppmerksomhet.","Læreren fikk klassens oppmerksomhet med et tegn."],
-  hensiktsmessig:["Det var en hensiktsmessig løsning.","Noen ganger er det hensiktsmessig å bruke en tabell."],
-  demokrati:["Norge er et demokrati.","I et demokrati kan folk stemme ved valg."],
-  fotosyntese:["Plantene bruker fotosyntese for å lage energi.","Vi lærte om fotosyntese i naturfag."],
-  middelalderen:["Ridderne levde i middelalderen.","I middelalderen bodde mange mennesker på gårder."],
-  subtraksjon:["Vi brukte subtraksjon for å finne forskjellen.","Subtraksjon betyr å trekke fra."],
-  divisjon:["Divisjon kan brukes når noe skal deles likt.","Vi øvde på divisjon i matematikktimen."],
-  grammatikk:["Grammatikk handler om hvordan språket er bygd opp.","Vi jobbet med grammatikk i norsktimen."],
-  substantiv:["Et substantiv kan være en ting, et sted eller et navn.","Læreren ba oss finne et substantiv i setningen."],
-  verb:["Et verb forteller ofte hva noen gjør.","Vi satte strek under hvert verb i teksten."],
-  adjektiv:["Et adjektiv beskriver hvordan noe er.","Hun brukte et adjektiv for å beskrive hunden."]
+
+  sol:[
+    "Sola varmet ansiktet mitt da vi gikk hjem fra skolen.",
+    "På tegningen laget Sara en gul sol over huset."
+  ],
+
+  bil:[
+    "Pappa parkerte bilen ved siden av butikken.",
+    "Vi satt stille i bilen mens regnet trommet på ruta."
+  ],
+
+  hus:[
+    "Det røde huset lå nederst i bakken.",
+    "I eventyret bodde familien i et lite hus ved skogen."
+  ],
+
+  mus:[
+    "En liten mus løp under skapet på kjøkkenet.",
+    "Katten satt helt stille og så etter en mus."
+  ],
+
+  mat:[
+    "Etter turen smakte maten ekstra godt.",
+    "Barna pakket mat i sekken før de gikk ut."
+  ],
+
+  bok:[
+    "Lina fant en spennende bok på biblioteket.",
+    "Han la boka forsiktig ned i sekken."
+  ],
+
+  tog:[
+    "Toget kom presis klokka åtte.",
+    "Vi vinket da toget kjørte ut fra stasjonen."
+  ],
+
+  lampe:[
+    "Lampa over bordet ga et varmt lys.",
+    "Bestemor slo på lampa før hun begynte å lese."
+  ],
+
+  skole:[
+    "Barna gikk sammen til skolen om morgenen.",
+    "Skolen hadde forestilling i gymsalen."
+  ],
+
+  vinter:[
+    "Om vinteren blir det tidlig mørkt.",
+    "Vinteren kom med snø og glatte veier."
+  ],
+
+  sommer:[
+    "Om sommeren badet vi nesten hver dag.",
+    "Sommeren var varm og full av lyse kvelder."
+  ],
+
+  blyant:[
+    "Omar spisset blyanten før han begynte å skrive.",
+    "Blyanten rullet ned fra pulten."
+  ],
+
+  katt:[
+    "Katten sov i vinduskarmen hele ettermiddagen.",
+    "En svart katt listet seg over gårdsplassen."
+  ],
+
+  hund:[
+    "Hunden logret da den så eieren sin.",
+    "Vi møtte en glad hund i parken."
+  ],
+
+  ball:[
+    "Ballen spratt over gjerdet og inn til naboen.",
+    "Mina kastet ballen til vennen sin."
+  ],
+
+  hoppe:[
+    "Barna ville hoppe tau i friminuttet.",
+    "Frosken prøvde å hoppe over steinen."
+  ],
+
+  klemme:[
+    "Hun ga lillebroren en klemme før hun dro.",
+    "Bamsen fikk en klemme etter leggetid."
+  ],
+
+  sammen:[
+    "Vi ryddet klasserommet sammen etter timen.",
+    "De bygde en hytte sammen i skogen."
+  ],
+
+  gammel:[
+    "Den gamle boka luktet støv og papir.",
+    "I hagen sto et gammelt epletre."
+  ],
+
+  nøkkel:[
+    "Nøkkelen lå i lomma hele tiden.",
+    "Han fant en nøkkel under matta."
+  ],
+
+  sjokolade:[
+    "Magnus spiste sjokolade til dessert.",
+    "Hun kjøpte sjokolade på vei hjem fra skolen.",
+    "Sjokoladen smeltet i sola."
+  ],
+
+  skjorte:[
+    "Han tok på seg en ren skjorte før besøket.",
+    "Skjorta hang på stolen ved senga."
+  ],
+
+  skje:[
+    "Hun rørte i suppa med en skje.",
+    "Skjeen falt ned på gulvet med et lite klirr."
+  ],
+
+  skjære:[
+    "Bestefar brukte en kniv til å skjære brød.",
+    "Kokken skulle skjære grønnsaker til suppa."
+  ],
+
+  kjøkken:[
+    "Det luktet nybakt brød fra kjøkkenet.",
+    "Familien samlet seg på kjøkkenet om morgenen."
+  ],
+
+  kjøre:[
+    "Vi skulle kjøre til hytta etter skolen.",
+    "Bussen måtte kjøre sakte på den glatte veien."
+  ],
+
+  kjøleskap:[
+    "Melka sto øverst i kjøleskapet.",
+    "Hun åpnet kjøleskapet for å finne ost."
+  ],
+
+  kjærlighet:[
+    "Bestemor sa at kjærlighet vises i det man gjør.",
+    "Filmen handlet om vennskap og kjærlighet."
+  ],
+
+  ringe:[
+    "Mamma måtte ringe skolen før klokka åtte.",
+    "Det begynte å ringe i telefonen."
+  ],
+
+  penger:[
+    "Han sparte penger til en ny sykkel.",
+    "Pengene lå trygt i den lille boksen."
+  ],
+
+  finger:[
+    "Hun fikk maling på en finger.",
+    "Han holdt opp en finger for å spørre om noe."
+  ],
+
+  regn:[
+    "Det kom regn akkurat da vi skulle ut.",
+    "Regnet slo hardt mot vinduet."
+  ],
+
+  vogn:[
+    "Babyen sov rolig i vogna.",
+    "De trillet vogna over brua."
+  ],
+
+  tenke:[
+    "Jeg måtte tenke litt før jeg svarte.",
+    "Hun satte seg ned for å tenke over spørsmålet."
+  ],
+
+  hjelp:[
+    "Han rakte opp hånda og ba om hjelp.",
+    "Med litt hjelp klarte hun oppgaven."
+  ],
+
+  hjem:[
+    "Vi gikk hjem da kampen var ferdig.",
+    "Han gledet seg til å komme hjem."
+  ],
+
+  hjerte:[
+    "Hun tegnet et hjerte på kortet.",
+    "Hjertet banket fort før konserten."
+  ],
+
+  hvit:[
+    "Den hvite katten lå på trappa.",
+    "Snøen gjorde hele hagen hvit."
+  ],
+
+  hvem:[
+    "Læreren spurte hvem som ville lese først.",
+    "Hvem hadde lagt boka på bordet?"
+  ],
+
+  hvor:[
+    "Hun visste ikke hvor nøkkelen var.",
+    "Hvor skal vi møtes etter skolen?"
+  ],
+
+  gjøre:[
+    "Hva skal vi gjøre i friminuttet?",
+    "De måtte gjøre ferdig leksene før middag."
+  ],
+
+  gjerne:[
+    "Jeg vil gjerne være med på turen.",
+    "Hun hjelper gjerne til når noen spør."
+  ],
+
+  gjest:[
+    "Vi fikk en gjest på besøk til middag.",
+    "Gjesten hengte jakka i gangen."
+  ],
+
+  alltid:[
+    "Han husker alltid å lukke døra.",
+    "Bestemor sier alltid hei med et smil."
+  ],
+
+  aldri:[
+    "Hun hadde aldri sett så mye snø før.",
+    "Vi går aldri over veien uten å se oss for."
+  ],
+
+  egentlig:[
+    "Han visste egentlig svaret hele tiden.",
+    "Egentlig ville hun bare være hjemme."
+  ],
+
+  kanskje:[
+    "Kanskje kommer det snø i morgen.",
+    "Vi kan kanskje rekke bussen likevel."
+  ],
+
+  dessverre:[
+    "Dessverre var butikken stengt.",
+    "Jeg kan dessverre ikke bli med i dag."
+  ],
+
+  selvfølgelig:[
+    "Selvfølgelig skal vi hjelpe deg.",
+    "Det er selvfølgelig lov å spørre en gang til."
+  ],
+
+  plutselig:[
+    "Plutselig begynte det å regne.",
+    "Plutselig hørte vi en lyd fra gangen."
+  ],
+
+  gjennom:[
+    "Vi gikk gjennom skogen på vei hjem.",
+    "Sola skinte gjennom vinduet."
+  ],
+
+  menneske:[
+    "Et menneske trenger både mat og søvn.",
+    "Alle mennesker lærer på ulike måter."
+  ],
+
+  nødvendig:[
+    "Det var nødvendig å ta med varme klær.",
+    "Noen ganger er det nødvendig å øve mer."
+  ],
+
+  annerledes:[
+    "Dagen ble helt annerledes enn vi hadde trodd.",
+    "Hun valgte en annerledes løsning."
+  ],
+
+  forskjellig:[
+    "Barna hadde forskjellig farge på jakkene.",
+    "Vi fant tre forskjellige svar på oppgaven."
+  ],
+
+  tilgjengelig:[
+    "Boka var tilgjengelig på biblioteket.",
+    "Læreren var tilgjengelig etter timen."
+  ],
+
+  interessert:[
+    "Han var interessert i dinosaurer.",
+    "Hun ble interessert da forsøket startet."
+  ],
+
+  nysgjerrig:[
+    "Amina ble nysgjerrig da hun så den gamle nøkkelen.",
+    "Den nysgjerrige katten undersøkte posen."
+  ],
+
+  interessant:[
+    "Læreren fortalte en interessant historie.",
+    "Det var en interessant bok om verdensrommet."
+  ],
+
+  journalist:[
+    "En journalist intervjuet elevene etter konserten.",
+    "Journalisten skrev om saken i avisa."
+  ],
+
+  abonnere:[
+    "Familien valgte å abonnere på avisa.",
+    "Han ville abonnere på et blad om dyr."
+  ],
+
+  restaurant:[
+    "Familien spiste middag på en restaurant.",
+    "Restauranten lå rett ved sjøen."
+  ],
+
+  diskusjon:[
+    "Det ble en god diskusjon i klassen.",
+    "Diskusjonen handlet om hva som var rettferdig."
+  ],
+
+  situasjon:[
+    "Det var en vanskelig situasjon for alle.",
+    "Hun visste ikke hva hun skulle gjøre i den situasjonen."
+  ],
+
+  bevisst:[
+    "Han tok et bevisst valg om å øve mer.",
+    "Læreren var bevisst på å gi tydelige beskjeder."
+  ],
+
+  uavhengig:[
+    "Hun ville klare oppgaven uavhengig av hjelp.",
+    "Avisen skal være uavhengig."
+  ],
+
+  parallell:[
+    "De to linjene var parallelle.",
+    "Veiene lå parallelt et langt stykke."
+  ],
+
+  komplisert:[
+    "Oppgaven virket komplisert i starten.",
+    "Forklaringen ble for komplisert for små barn."
+  ],
+
+  konsekvens:[
+    "Det fikk en tydelig konsekvens for gruppa.",
+    "En konsekvens av regnet var at kampen ble avlyst."
+  ],
+
+  eksperiment:[
+    "Klassen gjorde et eksperiment med vann og is.",
+    "Eksperimentet viste hva som skjer når vann fryser."
+  ],
+
+  kommunikasjon:[
+    "God kommunikasjon gjør samarbeid lettere.",
+    "Kommunikasjon mellom hjem og skole er viktig."
+  ],
+
+  konsentrasjon:[
+    "Eleven trengte god konsentrasjon under prøven.",
+    "Det var vanskelig å holde konsentrasjonen i bråket."
+  ],
+
+  sannsynlighet:[
+    "Vi regnet på sannsynlighet i matematikken.",
+    "Sannsynlighet handler om hvor trolig noe er."
+  ],
+
+  gjennomsnitt:[
+    "Klassen fant gjennomsnitt av resultatene.",
+    "Gjennomsnittet ble høyere enn forrige gang."
+  ],
+
+  oppmerksomhet:[
+    "Hunden ville ha oppmerksomhet.",
+    "Læreren fikk klassens oppmerksomhet med et tegn."
+  ],
+
+  hensiktsmessig:[
+    "Det var en hensiktsmessig løsning.",
+    "Noen ganger er det hensiktsmessig å bruke en tabell."
+  ]
+
 };
 
 let words = [];
@@ -391,64 +787,68 @@ let voices = [];
 
 const levelSelect = document.getElementById("level");
 
-Object.keys(levels).forEach(name => {
-  const opt = document.createElement("option");
-  opt.value = name;
-  opt.textContent = name;
+Object.keys(levels).forEach(name=>{
+  const opt=document.createElement("option");
+  opt.value=name;
+  opt.textContent=name;
   levelSelect.appendChild(opt);
 });
 
-document.querySelectorAll("input[name='mode']").forEach(radio => {
-  radio.addEventListener("change", updateModeUI);
+document.querySelectorAll("input[name='mode']").forEach(radio=>{
+  radio.addEventListener("change",updateModeUI);
 });
 
-document.getElementById("time").addEventListener("change", () => {
+document.getElementById("time").addEventListener("change",()=>{
   document.getElementById("customTimeWrap").classList.toggle(
     "hidden",
     document.getElementById("time").value !== "custom"
   );
 });
 
-document.getElementById("answer").addEventListener("keydown", e => {
-  if(e.key === "Enter") checkAnswer();
+document.getElementById("answer").addEventListener("keydown",e=>{
+  if(e.key==="Enter") checkAnswer();
 });
 
 function updateModeUI(){
-  mode = document.querySelector("input[name='mode']:checked").value;
-  const dictation = mode === "dictation";
 
-  document.getElementById("testTypeWrap").classList.toggle("hidden", !dictation);
-  document.getElementById("voiceBox").classList.toggle("hidden", !dictation);
-  document.getElementById("timeWrap").classList.toggle("hidden", dictation);
+  mode=document.querySelector("input[name='mode']:checked").value;
+
+  const dictation = mode==="dictation";
+
+  document.getElementById("testTypeWrap").classList.toggle("hidden",!dictation);
+  document.getElementById("voiceBox").classList.toggle("hidden",!dictation);
+  document.getElementById("timeWrap").classList.toggle("hidden",dictation);
   document.getElementById("customTimeWrap").classList.add("hidden");
-  document.getElementById("showBtn").classList.toggle("hidden", dictation);
-  document.getElementById("repeatBtn").classList.toggle("hidden", !dictation);
+  document.getElementById("showBtn").classList.toggle("hidden",dictation);
+  document.getElementById("repeatBtn").classList.toggle("hidden",!dictation);
 }
 
 function loadVoices(){
-  voices = speechSynthesis.getVoices();
 
-  const select = document.getElementById("voiceSelect");
-  select.innerHTML = "";
+  voices=speechSynthesis.getVoices();
 
-  const preferred = voices.filter(v =>
+  const select=document.getElementById("voiceSelect");
+  select.innerHTML="";
+
+  const preferred=voices.filter(v=>
     v.lang.toLowerCase().startsWith("nb") ||
     v.lang.toLowerCase().startsWith("no") ||
     v.lang.toLowerCase().startsWith("nn")
   );
 
-  const list = preferred.length ? preferred : voices;
+  const list=preferred.length ? preferred : voices;
 
-  list.forEach((voice, i) => {
-    const opt = document.createElement("option");
-    opt.value = voices.indexOf(voice);
-    opt.textContent = `${voice.name} (${voice.lang})`;
+  list.forEach((voice,i)=>{
+    const opt=document.createElement("option");
+    opt.value=voices.indexOf(voice);
+    opt.textContent=`${voice.name} (${voice.lang})`;
     select.appendChild(opt);
   });
+
 }
 
 if("speechSynthesis" in window){
-  speechSynthesis.onvoiceschanged = loadVoices;
+  speechSynthesis.onvoiceschanged=loadVoices;
   loadVoices();
 }
 
@@ -457,33 +857,40 @@ function toggleCustom(){
 }
 
 function shuffle(arr){
-  return [...arr].sort(() => Math.random() - 0.5);
+  return [...arr].sort(()=>Math.random()-0.5);
 }
 
 function getSeconds(){
-  const t = document.getElementById("time").value;
-  if(t === "custom") return Number(document.getElementById("customTime").value) || 2;
+  const t=document.getElementById("time").value;
+
+  if(t==="custom"){
+    return Number(document.getElementById("customTime").value)||2;
+  }
+
   return Number(t);
 }
 
 function startGame(){
-  mode = document.querySelector("input[name='mode']:checked").value;
-  testType = document.getElementById("testType").value;
 
-  const custom = document.getElementById("customWords").value
+  mode=document.querySelector("input[name='mode']:checked").value;
+  testType=document.getElementById("testType").value;
+
+  const custom=document.getElementById("customWords").value
     .split(/\n/)
-    .map(w => w.trim())
+    .map(w=>w.trim())
     .filter(Boolean);
 
-  const base = custom.length ? custom : levels[levelSelect.value];
-  const wanted = Number(document.getElementById("count").value) || 10;
+  const base=custom.length ? custom : levels[levelSelect.value];
 
-  words = shuffle(base).slice(0, Math.min(wanted, base.length));
-  index = 0;
-  correct = 0;
-  wrong = 0;
-  score = 0;
-  log = [];
+  const wanted=Number(document.getElementById("count").value)||10;
+
+  words=shuffle(base).slice(0,Math.min(wanted,base.length));
+
+  index=0;
+  correct=0;
+  wrong=0;
+  score=0;
+  log=[];
 
   document.getElementById("setup").classList.add("hidden");
   document.getElementById("game").classList.remove("hidden");
@@ -494,97 +901,107 @@ function startGame(){
 }
 
 function nextWord(){
-  if(index >= words.length){
+
+  if(index>=words.length){
     endGame();
     return;
   }
 
-  current = words[index];
-  currentSentence = getSentence(current);
+  current=words[index];
+  currentSentence=getSentence(current);
 
-  document.getElementById("progress").textContent = `${index + 1}/${words.length}`;
-  document.getElementById("answer").value = "";
+  document.getElementById("progress").textContent=
+    `${index+1}/${words.length}`;
 
-  if(mode === "dictation"){
-    showing = false;
+  document.getElementById("answer").value="";
 
-    document.getElementById("wordBox").textContent =
-      testType === "pre" ? "Pre-test diktat" : "Post-test diktat";
+  if(mode==="dictation"){
+
+    showing=false;
+
+    document.getElementById("wordBox").textContent=
+      testType==="pre" ? "Pre-test diktat" : "Post-test diktat";
 
     document.getElementById("answer").classList.remove("hidden");
     document.getElementById("checkBtn").classList.remove("hidden");
     document.getElementById("repeatBtn").classList.remove("hidden");
     document.getElementById("showBtn").classList.add("hidden");
 
-    setTimeout(() => speakCurrent(), 400);
+    setTimeout(()=>speakCurrent(),400);
+
     document.getElementById("answer").focus();
+
     return;
   }
 
-  showing = true;
-  document.getElementById("wordBox").textContent = current;
+  showing=true;
+
+  document.getElementById("wordBox").textContent=current;
+
   document.getElementById("answer").classList.add("hidden");
   document.getElementById("checkBtn").classList.add("hidden");
   document.getElementById("repeatBtn").classList.add("hidden");
   document.getElementById("showBtn").classList.remove("hidden");
 
-  setTimeout(() => hideWord(), getSeconds() * 1000);
+  setTimeout(()=>hideWord(),getSeconds()*1000);
 }
 
 function getSentence(word){
-  const key = word.toLowerCase();
+
+  const key=word.toLowerCase();
+
   if(sentenceBank[key]){
-    const options = sentenceBank[key];
-    return options[Math.floor(Math.random() * options.length)];
+    const options=sentenceBank[key];
+    return options[Math.floor(Math.random()*options.length)];
   }
 
-  const templates = [
-    `I teksten vi leste i dag, la vi spesielt merke til ordet ${word}.`,
-    `Da eleven skrev setningen, måtte han passe ekstra godt på ordet ${word}.`,
-    `I fortellingen dukket ordet ${word} opp flere ganger.`,
-    `På tavla sto en setning der det viktigste ordet var ${word}.`,
-    `Under lesingen stoppet læreren opp ved ordet ${word}.`
-  ];
-
-  return templates[Math.floor(Math.random() * templates.length)];
+  return "";
 }
 
 function selectedVoice(){
-  const select = document.getElementById("voiceSelect");
-  if(select.value === "") return null;
+
+  const select=document.getElementById("voiceSelect");
+
+  if(select.value==="") return null;
+
   return voices[Number(select.value)] || null;
 }
 
-function speakText(text, rate = null){
-  return new Promise(resolve => {
+function speakText(text,rate=null){
+
+  return new Promise(resolve=>{
+
     if(!("speechSynthesis" in window)){
-      alert("Denne nettleseren støtter ikke tale.");
       resolve();
       return;
     }
 
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = "nb-NO";
-    utter.rate = rate ?? Number(document.getElementById("rateSelect").value);
-    utter.pitch = 1;
+    const utter=new SpeechSynthesisUtterance(text);
 
-    const voice = selectedVoice();
-    if(voice) utter.voice = voice;
+    utter.lang="nb-NO";
+    utter.rate=rate ?? Number(document.getElementById("rateSelect").value);
+    utter.pitch=1;
 
-    utter.onend = resolve;
-    utter.onerror = resolve;
+    const voice=selectedVoice();
+
+    if(voice) utter.voice=voice;
+
+    utter.onend=resolve;
+    utter.onerror=resolve;
 
     speechSynthesis.speak(utter);
+
   });
+
 }
 
 function pause(ms){
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise(resolve=>setTimeout(resolve,ms));
 }
 
 async function speakCurrent(){
+
   if(!("speechSynthesis" in window)){
-    alert("Denne nettleseren støtter ikke tale.");
     return;
   }
 
@@ -592,32 +1009,45 @@ async function speakCurrent(){
 
   await speakText(currentSentence);
   await pause(650);
-  await speakText(`Skriv ordet: ${current}.`, 0.72);
+  await speakText(`Skriv ${current}.`,0.72);
   await pause(550);
-  await speakText(current, 0.68);
+  await speakText(current,0.68);
+
 }
 
 function testVoice(){
+
   speechSynthesis.cancel();
-  speakText("Dette er en test av stemmen. Magnus spiste sjokolade til dessert. Skriv ordet: sjokolade.", 0.78);
+
+  speakText(
+    "Magnus spiste sjokolade til dessert. Skriv sjokolade.",
+    0.78
+  );
+
 }
 
 function hideWord(){
-  showing = false;
-  document.getElementById("wordBox").textContent = "Skriv ordet";
+
+  showing=false;
+
+  document.getElementById("wordBox").textContent="Skriv ordet";
+
   document.getElementById("answer").classList.remove("hidden");
   document.getElementById("checkBtn").classList.remove("hidden");
+
   document.getElementById("answer").focus();
 }
 
 function showAgain(){
+
   if(!current) return;
 
-  document.getElementById("wordBox").textContent = current;
+  document.getElementById("wordBox").textContent=current;
+
   document.getElementById("answer").classList.add("hidden");
   document.getElementById("checkBtn").classList.add("hidden");
 
-  setTimeout(() => hideWord(), getSeconds() * 1000);
+  setTimeout(()=>hideWord(),getSeconds()*1000);
 }
 
 function normalize(s){
@@ -625,61 +1055,63 @@ function normalize(s){
 }
 
 function checkAnswer(){
+
   if(showing) return;
 
-  const answer = document.getElementById("answer").value;
-  const ok = normalize(answer) === normalize(current);
+  const answer=document.getElementById("answer").value;
+
+  const ok=normalize(answer)===normalize(current);
 
   if(ok){
     correct++;
-    score += 10;
+    score+=10;
   }else{
     wrong++;
   }
 
   log.push({
-    word: current,
-    sentence: currentSentence,
-    answer: answer,
-    ok: ok,
-    mode: mode,
-    testType: mode === "dictation" ? testType : ""
+    word:current,
+    sentence:currentSentence,
+    answer,
+    ok
   });
 
   index++;
+
   updateStats();
+
   nextWord();
 }
 
 function updateStats(){
-  document.getElementById("correct").textContent = correct;
-  document.getElementById("wrong").textContent = wrong;
-  document.getElementById("score").textContent = score;
+
+  document.getElementById("correct").textContent=correct;
+  document.getElementById("wrong").textContent=wrong;
+  document.getElementById("score").textContent=score;
+
 }
 
 function endGame(){
-  if("speechSynthesis" in window) speechSynthesis.cancel();
+
+  if("speechSynthesis" in window){
+    speechSynthesis.cancel();
+  }
 
   document.getElementById("game").classList.add("hidden");
   document.getElementById("result").classList.remove("hidden");
 
-  const total = log.length;
-  const percent = total ? Math.round((correct / total) * 100) : 0;
+  const total=log.length;
 
-  const title =
-    mode === "dictation"
-      ? testType === "pre"
-        ? "Pre-test diktat"
-        : "Post-test diktat"
-      : "Vanlig minnetrening";
+  const percent=total
+    ? Math.round((correct/total)*100)
+    : 0;
 
-  document.getElementById("summary").innerHTML = `
-    <p><b>${title}</b></p>
+  document.getElementById("summary").innerHTML=`
     <p><b>${correct}</b> riktige av <b>${total}</b> ord.</p>
-    <p>Treffprosent: <b>${percent}%</b>. Poeng: <b>${score}</b>.</p>
+    <p>Treffprosent: <b>${percent}%</b>.</p>
   `;
 
-  let html = `
+  let html=`
     <tr>
       <th>Ord</th>
       <th>Setning</th>
@@ -688,88 +1120,38 @@ function endGame(){
     </tr>
   `;
 
-  log.forEach(item => {
-    html += `
+  log.forEach(item=>{
+
+    html+=`
       <tr>
         <td>${escapeHtml(item.word)}</td>
-        <td>${escapeHtml(item.sentence || "")}</td>
+        <td>${escapeHtml(item.sentence)}</td>
         <td>${escapeHtml(item.answer || "—")}</td>
         <td class="${item.ok ? "good" : "badtext"}">
           ${item.ok ? "Riktig" : "Feil"}
         </td>
       </tr>
     `;
+
   });
 
-  document.getElementById("resultTable").innerHTML = html;
-
-  saveTestResult(title, percent, correct, total);
-  showPreviousResults();
-}
-
-function saveTestResult(title, percent, correct, total){
-  if(mode !== "dictation") return;
-
-  const key = "rettskriving_diktat_resultater";
-  const old = JSON.parse(localStorage.getItem(key) || "[]");
-
-  old.push({
-    date: new Date().toLocaleString("no-NO"),
-    testType,
-    title,
-    level: levelSelect.value,
-    correct,
-    total,
-    percent
-  });
-
-  localStorage.setItem(key, JSON.stringify(old));
-}
-
-function showPreviousResults(){
-  if(mode !== "dictation") return;
-
-  const key = "rettskriving_diktat_resultater";
-  const old = JSON.parse(localStorage.getItem(key) || "[]")
-    .filter(r => r.level === levelSelect.value)
-    .slice(-6);
-
-  if(old.length < 2) return;
-
-  let html = `
-    <h3>Tidligere diktater på samme nivå</h3>
-    <table>
-      <tr>
-        <th>Dato</th>
-        <th>Test</th>
-        <th>Resultat</th>
-      </tr>
-  `;
-
-  old.forEach(r => {
-    html += `
-      <tr>
-        <td>${escapeHtml(r.date)}</td>
-        <td>${r.testType === "pre" ? "Pre-test" : "Post-test"}</td>
-        <td>${r.correct}/${r.total} – ${r.percent}%</td>
-      </tr>
-    `;
-  });
-
-  html += `</table>`;
-  document.getElementById("summary").innerHTML += html;
+  document.getElementById("resultTable").innerHTML=html;
 }
 
 function escapeHtml(str){
+
   return String(str)
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
     .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
+
 }
 
 updateModeUI();
+
 </script>
+
 </body>
 </html>
